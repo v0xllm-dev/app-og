@@ -2,8 +2,13 @@
   "name": "playground",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "generate:config": "tsx scripts/generate-config.ts",
+    "build:config": "npm run generate:config"
+  },
   "devDependencies": {
     "@vx/start": "workspace:*",
-    "@vx/system-utils": "workspace:*"
+    "@vx/system-utils": "workspace:*",
+    "tsx": "^4.7.0"
   }
 }
