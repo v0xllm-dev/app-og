@@ -118,3 +118,4 @@ logs
 *.lock
 **/__mocks__/*-lock.yaml
 # **/routeTree.gen.ts
+.env
