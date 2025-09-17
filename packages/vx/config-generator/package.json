@@ -1,0 +1,56 @@
+{
+  "name": "@vx/config-generator",
+  "version": "0.1.0",
+  "description": "Reusable configuration generator for PWA manifests and browser configs",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./cli": {
+      "types": "./dist/cli.d.ts",
+      "import": "./dist/cli.mjs",
+      "require": "./dist/cli.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.mjs",
+      "require": "./dist/types.js"
+    }
+  },
+  "bin": {
+    "generate-config": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "pwa",
+    "manifest",
+    "browserconfig",
+    "configuration",
+    "generator"
+  ],
+  "author": "Vx FE Devs <fe-developers@vezham.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "~5.8.2"
+  },
+  "dependencies": {
+    "yargs": "^17.7.2"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.0.0"
+  }
+}
