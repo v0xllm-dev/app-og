@@ -3,124 +3,20 @@
  * 
  * This file contains all site metadata, SEO configuration, PWA settings,
  * and browser configuration for the playground application.
+ * 
+ * Pure configuration data only - no functions or logic.
  */
 
-// Base configuration types
-export interface SiteConfig {
-  // Basic site information
-  site: {
-    name: string
-    shortName: string
-    title: string
-    description: string
-    author: string
-    keywords: string[]
-    url?: string
-    version: string
-  }
-  
-  // SEO and social media configuration
-  seo: {
-    openGraph: {
-      type: string
-      title: string
-      description: string
-      image: string
-      url?: string
-    }
-    twitter: {
-      card: string
-      site: string
-      creator: string
-      title: string
-      description: string
-      image: string
-    }
-  }
-  
-  // PWA configuration
-  pwa: {
-    themeColor: {
-      light: string
-      dark: string
-    }
-    backgroundColor: {
-      light: string
-      dark: string
-    }
-    display: string
-    orientation: string
-    startUrl: string
-    scope: string
-    categories: string[]
-  }
-  
-  // Icons configuration
-  icons: {
-    favicon: {
-      light: string
-      dark: string
-    }
-    appleTouchIcon: string
-    maskIcon: {
-      light: string
-      dark: string
-      color: {
-        light: string
-        dark: string
-      }
-    }
-    manifest: Array<{
-      src: string
-      sizes: string
-      type: string
-      purpose?: string
-    }>
-  }
-  
-  // Browser configuration
-  browser: {
-    msApplication: {
-      name: string
-      startUrl: string
-      tileColor: string
-    }
-    apple: {
-      mobileWebAppTitle: string
-      mobileWebAppCapable: boolean
-      mobileWebAppStatusBarStyle: string
-    }
-  }
-  
-  // Splash screens and shortcuts
-  splashScreens: {
-    light: Array<{
-      media: string
-      href: string
-    }>
-    dark: Array<{
-      media: string
-      href: string
-    }>
-  }
-  
-  shortcuts: Array<{
-    name: string
-    shortName: string
-    url: string
-    icons: Array<{
-      src: string
-      type: string
-      sizes: string
-    }>
-  }>
-}
+import { SiteConfig } from '@vx/config-generator'
 
 // CDN base URL for static assets
 const CDN_BASE = 'https://static.cdn.vezham.com/apps_internals/playground'
 const VERSION = '1.0.5'
 
-// Main site configuration
+/**
+ * Main site configuration object
+ * Contains all metadata and settings for the playground application
+ */
 const siteConfig: SiteConfig = {
   // Basic site information
   site: {
@@ -345,49 +241,6 @@ const siteConfig: SiteConfig = {
     }
   ]
 }
-
-// Helper functions for generating configuration files
-export const generateManifest = (config: SiteConfig) => ({
-  manifest_version: 1,
-  version: config.site.version,
-  id: 'vezham-playground',
-  name: config.site.name,
-  short_name: config.site.shortName,
-  description: config.site.description,
-  scope: config.pwa.scope,
-  start_url: config.pwa.startUrl,
-  display: config.pwa.display,
-  orientation: config.pwa.orientation,
-  theme_color: '#000000',
-  background_color: '#ffffff',
-  categories: config.pwa.categories,
-  icons: config.icons.manifest,
-  screenshots: [
-    {
-      src: `${CDN_BASE}/screenshots/home-512x512.png?vx=${config.site.version}`,
-      type: 'image/png',
-      sizes: '512x512'
-    }
-  ],
-  shortcuts: config.shortcuts
-})
-
-export const generateBrowserConfig = (config: SiteConfig) => `<?xml version="1.0" encoding="utf-8" ?>
-<browserconfig>
-  <msapplication>
-    <tile>
-      <square70x70logo
-        src="${CDN_BASE}/icons/icon-square-70x70.png?vx=${config.site.version}" />
-      <square150x150logo
-        src="${CDN_BASE}/icons/icon-square-150x150.png?vx=${config.site.version}" />
-      <wide310x150logo
-        src="${CDN_BASE}/icons/icon-square-310x150.png?vx=${config.site.version}" />
-      <square310x310logo
-        src="${CDN_BASE}/icons/icon-square-310x310.png?vx=${config.site.version}" />
-      <tilecolor>${config.browser.msApplication.tileColor}</tilecolor>
-    </tile>
-  </msapplication>
-</browserconfig>`
 
 // Export default configuration
 export default siteConfig
