@@ -3,6 +3,7 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
+import { configGenerator } from '@vx/config-generator/vite'
 
 export default defineConfig(async () => {
   const tailwindcss = (await import('@tailwindcss/vite')).default
@@ -25,7 +26,13 @@ export default defineConfig(async () => {
       tanstackRouter({ target: 'react', autoCodeSplitting: true }),
       react(),
       tailwindcss(),
-      tsconfigPaths()
+      tsconfigPaths(),
+      configGenerator({
+        configPath: './src/config/site.ts',
+        outputDir: './public',
+        verbose: true,
+        watch: true
+      })
     ],
     // Uncomment this if you are using workers.
     // worker: {

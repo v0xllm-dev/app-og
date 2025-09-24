@@ -18,5 +18,8 @@ export {
 // Export utilities
 export { writeConfigFiles, loadConfigFromFile } from './utils'
 
+// Export Vite plugin
+export { configGenerator, type ViteConfigGeneratorOptions } from './vite-plugin'
+
 // Default export for convenience
 export { generateManifest as default } from './generators'

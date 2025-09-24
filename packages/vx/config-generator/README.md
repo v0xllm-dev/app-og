@@ -11,6 +11,7 @@ A reusable TypeScript package for generating PWA manifests, browser configuratio
 - 🛠️ **CLI Tool** - Command-line interface for build automation
 - ✅ **Validation** - Built-in configuration validation
 - 📦 **Multiple Formats** - Supports both CommonJS and ES modules
+- ⚡ **Vite Plugin** - Seamless integration with Vite build process
 
 ## Installation
 
@@ -165,6 +166,24 @@ async function generateConfigs() {
 generateConfigs()
 ```
 
+#### Using the Vite Plugin
+
+```typescript
+import { defineConfig } from 'vite'
+import { configGenerator } from '@vx/config-generator/vite'
+
+export default defineConfig({
+  plugins: [
+    configGenerator({
+      configPath: './src/config/site.ts',
+      outputDir: './public',
+      cdnBase: 'https://cdn.example.com',
+      verbose: true
+    })
+  ]
+})
+```
+
 #### Using Individual Generators
 
 ```typescript
@@ -218,6 +237,19 @@ Writes both manifest.json and browserconfig.xml files to disk.
 
 #### `loadConfigFromFile(configPath: string): Promise<SiteConfig>`
 Loads configuration from a TypeScript, JavaScript, or JSON file.
+
+#### `configGenerator(options: ViteConfigGeneratorOptions): Plugin`
+Creates a Vite plugin for automatic configuration file generation.
+
+**Options:**
+- `configPath: string` - Path to configuration file (required if config not provided)
+- `config?: SiteConfig` - Direct configuration object (alternative to configPath)
+- `outputDir?: string` - Output directory (default: './public')
+- `dev?: boolean` - Generate files in development mode (default: false)
+- `watch?: boolean` - Watch config file for changes (default: true)
+- `verbose?: boolean` - Enable verbose logging (default: true)
+- `cdnBase?: string` - CDN base URL for assets
+- `version?: string` - Version override
 
 #### `validateConfig(config: SiteConfig): ValidationResult`
 Validates a site configuration and returns validation results.
@@ -276,21 +308,43 @@ Add to your `project.json`:
 
 ### With Vite
 
-Create a Vite plugin:
+Use the built-in Vite plugin:
 
 ```typescript
-import { Plugin } from 'vite'
-import { writeConfigFiles, loadConfigFromFile } from '@vx/config-generator'
+import { defineConfig } from 'vite'
+import { configGenerator } from '@vx/config-generator/vite'
 
-export function configGeneratorPlugin(configPath: string): Plugin {
-  return {
-    name: 'config-generator',
-    buildStart: async () => {
-      const config = await loadConfigFromFile(configPath)
-      await writeConfigFiles(config, { outputDir: './public' })
-    }
-  }
-}
+export default defineConfig({
+  plugins: [
+    configGenerator({
+      configPath: './src/config/site.ts',
+      outputDir: './dist',
+      watch: true,
+      verbose: true
+    })
+  ]
+})
+```
+
+### Advanced Vite Plugin Usage
+
+```typescript
+import { defineConfig } from 'vite'
+import { configGenerator } from '@vx/config-generator/vite'
+
+export default defineConfig({
+  plugins: [
+    configGenerator({
+      configPath: './src/config/site.ts',
+      outputDir: './public',
+      cdnBase: process.env.CDN_BASE_URL,
+      version: process.env.APP_VERSION,
+      dev: process.env.NODE_ENV === 'development',
+      watch: true,
+      verbose: process.env.NODE_ENV === 'development'
+    })
+  ]
+})
 ```
 
 ## Migration Guide
